@@ -16,13 +16,13 @@ st.set_page_config(
 # -------------------------------------------------
 # Load model & scaler
 # -------------------------------------------------
-@st.cache_resource
 def load_artifacts():
-    model = pickle.load(open("best_heart_model.pkl", "rb"))
-    scaler = pickle.load(open("scaler.pkl", "rb"))
+    with open("best_heart_model.pkl", "rb") as f:
+        model = pickle.load(f)
+    with open("scaler.pkl", "rb") as f:
+        scaler = pickle.load(f)
     return model, scaler
 
-model, scaler = load_artifacts()
 
 # -------------------------------------------------
 # Load heart image
@@ -183,3 +183,4 @@ if st.button("🔍 Predict Heart Disease Risk", use_container_width=True):
         )
 
 # ---------
+
