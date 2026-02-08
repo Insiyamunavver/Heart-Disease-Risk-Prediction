@@ -27,7 +27,11 @@ def load_artifacts():
 # -------------------------------------------------
 # Load heart image
 # -------------------------------------------------
-heart_image = Image.open("C:\\Users\\Taha\\OneDrive\\Desktop\\heart_risk_prediction\\assets\\heart_anatomy.png.png")
+import os
+
+image_path = os.path.join("assets", "heart_anatomy.png")
+
+heart_image = Image.open(image_path)
 
 # -------------------------------------------------
 # Feature names
@@ -183,4 +187,5 @@ if st.button("🔍 Predict Heart Disease Risk", use_container_width=True):
         )
 
 # ---------
+
 
