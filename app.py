@@ -3,6 +3,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import pickle
+import os
 
 # -------------------------------------------------
 # Page configuration
@@ -23,15 +24,18 @@ def load_artifacts():
         scaler = pickle.load(f)
     return model, scaler
 
+model, scaler = load_artifacts()
+
 
 # -------------------------------------------------
 # Load heart image
 # -------------------------------------------------
-import os
+image_path = "heart_anatomy.png"
 
-image_path = os.path.join("assets", "heart_anatomy.png")
-
-heart_image = Image.open(image_path)
+if os.path.exists(image_path):
+    heart_image = Image.open(image_path)
+else:
+    heart_image = None
 
 # -------------------------------------------------
 # Feature names
@@ -49,6 +53,10 @@ FEATURE_NAMES = [
 with st.sidebar:
     st.markdown("## **Human Heart**")
     st.image(heart_image, use_container_width=True)
+    if heart_image:
+        st.image(heart_image, use_container_width=True)
+    else:
+        st.warning("Heart image not found.")
 
     st.markdown("## **Risk Scale**")
     st.info(
@@ -187,5 +195,6 @@ if st.button("🔍 Predict Heart Disease Risk", use_container_width=True):
         )
 
 # ---------
+
 
 
