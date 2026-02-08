@@ -2,7 +2,7 @@ from PIL import Image
 import streamlit as st
 import numpy as np
 import pandas as pd
-import pickle
+import joblib
 import os
 
 # -------------------------------------------------
@@ -17,14 +17,12 @@ st.set_page_config(
 # -------------------------------------------------
 # Load model & scaler
 # -------------------------------------------------
+@st.cache_resource
 def load_artifacts():
-    with open("best_heart_model.pkl", "rb") as f:
-        model = pickle.load(f)
-    with open("scaler.pkl", "rb") as f:
-        scaler = pickle.load(f)
+    model = joblib.load("best_heart_model.pkl")
+    scaler = joblib.load("scaler.pkl")
     return model, scaler
 
-model, scaler = load_artifacts()
 
 
 # -------------------------------------------------
@@ -52,7 +50,7 @@ FEATURE_NAMES = [
 # =================================================
 with st.sidebar:
     st.markdown("## **Human Heart**")
-    st.image(heart_image, use_container_width=True)
+
     if heart_image:
         st.image(heart_image, use_container_width=True)
     else:
@@ -150,8 +148,10 @@ if st.button("🔍 Predict Heart Disease Risk", use_container_width=True):
         st.success(f"✅ **Low Risk of Heart Disease**  \nEstimated Risk: **{probability*100:.2f}%**")
 
     # ---------------- FEATURE IMPORTANCE ----------------
-    st.subheader("📈 Key Risk-Contributing Factors")
+    # ---------------- FEATURE IMPORTANCE ----------------
+st.subheader("📈 Key Risk-Contributing Factors")
 
+if hasattr(model, "coef_"):
     coef = model.coef_[0]
     importance_df = pd.DataFrame({
         "Feature": FEATURE_NAMES,
@@ -166,6 +166,8 @@ if st.button("🔍 Predict Heart Disease Risk", use_container_width=True):
     st.bar_chart(
         importance_df.set_index("Feature")["Absolute Impact"]
     )
+else:
+    st.info("Feature importance is available only for linear models.")
 
     # ---------------- CLINICAL INTERPRETATION ----------------
     st.subheader("🩺 Clinical Interpretation")
@@ -195,6 +197,7 @@ if st.button("🔍 Predict Heart Disease Risk", use_container_width=True):
         )
 
 # ---------
+
 
 
 
