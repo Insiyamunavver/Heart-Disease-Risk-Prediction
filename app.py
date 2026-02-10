@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 # -------------------------------------------------
-# Load model & scaler
+# Load model & scaler (GLOBAL)
 # -------------------------------------------------
 @st.cache_resource
 def load_artifacts():
@@ -23,7 +23,7 @@ def load_artifacts():
     scaler = joblib.load("scaler.pkl")
     return model, scaler
 
-
+model, scaler = load_artifacts()
 
 # -------------------------------------------------
 # Load heart image
@@ -46,7 +46,7 @@ FEATURE_NAMES = [
 ]
 
 # =================================================
-# SIDEBAR (IMAGE + RISK SCALE)
+# SIDEBAR
 # =================================================
 with st.sidebar:
     st.markdown("## **Human Heart**")
@@ -81,7 +81,7 @@ with st.sidebar:
 # =================================================
 st.markdown(
     """
-    <h1 style="text-align:center;"> Heart Disease Risk Prediction</h1>
+    <h1 style="text-align:center;">Heart Disease Risk Prediction</h1>
     <p style="text-align:center; color:gray;">
     Clinical decision-support dashboard for heart disease risk estimation
     </p>
@@ -127,6 +127,7 @@ ex_ang = 1 if ex_ang == "Yes" else 0
 st.divider()
 
 if st.button("🔍 Predict Heart Disease Risk", use_container_width=True):
+
     input_data = np.array([[
         age, sex, cp, bp, chol,
         fbs, ekg, max_hr, ex_ang,
@@ -143,31 +144,30 @@ if st.button("🔍 Predict Heart Disease Risk", use_container_width=True):
     st.progress(int(probability * 100))
 
     if prediction == 1:
-        st.error(f"⚠️ **High Risk of Heart Disease**  \nEstimated Risk: **{probability*100:.2f}%**")
+        st.error(f"⚠️ **High Risk of Heart Disease**\nEstimated Risk: **{probability*100:.2f}%**")
     else:
-        st.success(f"✅ **Low Risk of Heart Disease**  \nEstimated Risk: **{probability*100:.2f}%**")
+        st.success(f"✅ **Low Risk of Heart Disease**\nEstimated Risk: **{probability*100:.2f}%**")
 
     # ---------------- FEATURE IMPORTANCE ----------------
-    # ---------------- FEATURE IMPORTANCE ----------------
-st.subheader("📈 Key Risk-Contributing Factors")
+    st.subheader("📈 Key Risk-Contributing Factors")
 
-if hasattr(model, "coef_"):
-    coef = model.coef_[0]
-    importance_df = pd.DataFrame({
-        "Feature": FEATURE_NAMES,
-        "Impact": coef
-    })
+    if hasattr(model, "coef_"):
+        coef = model.coef_[0]
+        importance_df = pd.DataFrame({
+            "Feature": FEATURE_NAMES,
+            "Impact": coef
+        })
 
-    importance_df["Absolute Impact"] = importance_df["Impact"].abs()
-    importance_df = importance_df.sort_values(
-        "Absolute Impact", ascending=False
-    ).head(5)
+        importance_df["Absolute Impact"] = importance_df["Impact"].abs()
+        importance_df = importance_df.sort_values(
+            "Absolute Impact", ascending=False
+        ).head(5)
 
-    st.bar_chart(
-        importance_df.set_index("Feature")["Absolute Impact"]
-    )
-else:
-    st.info("Feature importance is available only for linear models.")
+        st.bar_chart(
+            importance_df.set_index("Feature")["Absolute Impact"]
+        )
+    else:
+        st.info("Feature importance is available only for linear models.")
 
     # ---------------- CLINICAL INTERPRETATION ----------------
     st.subheader("🩺 Clinical Interpretation")
@@ -195,9 +195,3 @@ else:
             "Clinical parameters are largely within acceptable ranges, "
             "suggesting lower cardiovascular risk."
         )
-
-# ---------
-
-
-
-
