@@ -1,7 +1,8 @@
-🫀 Heart Disease Risk Prediction System
+#🫀 Heart Disease Risk Prediction System
+
 A machine learning–based clinical decision support web application that predicts the risk of heart disease using patient health indicators, deployed with a clean and interactive Streamlit dashboard.
 
-🚀 Live Application
+#🚀 Live Application
 
 🔗 Live Demo:
 👉 https://heart-disease-risk-prediction-zo9a3gpmjbjuf8oh4vkexh.streamlit.app/
