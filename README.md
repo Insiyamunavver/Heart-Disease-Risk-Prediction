@@ -56,6 +56,3 @@ This application is intended **for educational purposes only** and should **not 
 
 ---
 
-
-For feedback or collaboration:  
-📧 *Add your email / LinkedIn here*
