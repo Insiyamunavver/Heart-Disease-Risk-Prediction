@@ -1,26 +1,38 @@
-# Heart-Disease-Risk-Prediction
-Streamlit-based clinical decision support system for heart disease risk prediction using machine learning.
-## Overview
-This application allows users to input patient health information and receive a probability-based assessment of heart disease risk.  
+🫀 Heart Disease Risk Prediction System
+A machine learning–based clinical decision support web application that predicts the risk of heart disease using patient health indicators, deployed with a clean and interactive Streamlit dashboard.
 
+🚀 Live Application
 
-## Features
-- Risk prediction using a trained machine learning model
-- Probability-based output with clear risk interpretation
-- Visualization of key contributing risk factors
-- Clean, clinical-style user interface
-- Deployed as a web application using Streamlit
+🔗 Live Demo:
+👉 https://heart-disease-risk-prediction-zo9a3gpmjbjuf8oh4vkexh.streamlit.app/
 
-## Model & Approach
-- Multiple classification models were trained and evaluated offline.
-- The best-performing model was selected and saved for inference.
-- The deployed application uses the pre-trained model and scaler for real-time predictions.
-- Model training is **not performed** inside the web application.
+📌 Overview
 
-## Tech Stack
-- Python
-- Streamlit
-- Scikit-learn
-- NumPy
-- Pandas
+This project aims to assist in  cardiovascular risk assessment by leveraging supervised machine learning techniques on clinical data.
+The application allows users to input patient health parameters and instantly receive:
 
+Heart disease risk classification
+
+Probability-based risk estimation
+
+Key contributing risk factors
+
+Clinical-style interpretation of results
+
+🛠️ Tech Stack
+
+Programming Language: Python
+
+ML Libraries: Scikit-learn, XGBoost
+
+Data Handling: Pandas, NumPy
+
+Model Serialization: Joblib
+
+Frontend & Deployment: Streamlit
+
+Version Control: Git & GitHub
+
+⚠️ Disclaimer
+
+This application is intended for educational and demonstration purposes only and must not be used as a substitute for professional medical diagnosis or treatment.
